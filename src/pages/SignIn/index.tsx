@@ -35,13 +35,13 @@ export default function SignIn() {
         <View className="w-full items-center">
           <TextInput
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
-            placeholder="Digite seu e-mail..."
+            placeholder="E-mail..."
           />
         </View>
         <View className="w-full items-center">
           <TextInput
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
-            placeholder="Digite sua senha..."
+            placeholder="Senha..."
           />
         </View>
 
