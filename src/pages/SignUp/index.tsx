@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import {
   View,
   Text,
@@ -7,7 +9,16 @@ import {
   Platform,
 } from "react-native";
 
+import { AuthContext } from "../../contexts/auth";
+
 export default function SignUp() {
+
+  const {user} = useContext(AuthContext)
+
+  function handleSignUp(){
+    console.log(user)
+  }
+
   return (
     <View className="flex-1 bg-[#f0f4ff]">
       <KeyboardAvoidingView
@@ -38,6 +49,7 @@ export default function SignUp() {
 
         <TouchableOpacity
           activeOpacity={0.7}
+          onPress={handleSignUp}
           className="w-[90%] h-[45px] rounded-[8px] bg-[#3b3dbf] mt-[10px] items-center justify-center"
         >
           <Text className="text-[20px] text-white">Cadastrar</Text>
