@@ -7,14 +7,13 @@ export const AuthContext = createContext<any>({});
 
 // provider: provê/fornece as informações para o app.
 export default function AuthProvider({ children }: any) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({nome: 'teste'});
   const [loadingAuth, setLoadingAuth] = useState(false);
 
   const navigation = useNavigation();
 
   async function signUp(nome: string, password: string, email: string) {
-
-    setLoadingAuth(true)
+    setLoadingAuth(true);
 
     try {
       const response = await api.post("/users", {
@@ -23,16 +22,18 @@ export default function AuthProvider({ children }: any) {
         email: email,
       });
 
-      setLoadingAuth(false)
+      setLoadingAuth(false);
       navigation.goBack();
     } catch (error) {
       console.log(error);
-      setLoadingAuth(false)
+      setLoadingAuth(false);
     }
   }
 
+  // !!user: converte a variável para booleana. se tiver algo dentro, retorna true... se não tiver, retorna false.
+
   return (
-    <AuthContext.Provider value={{ user, signUp, loadingAuth }}>
+    <AuthContext.Provider value={{ signed: !!user, user, signUp, loadingAuth }}>
       {children}
     </AuthContext.Provider>
   );
