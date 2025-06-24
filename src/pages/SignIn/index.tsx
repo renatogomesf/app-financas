@@ -1,3 +1,5 @@
+import { useState, useContext } from "react";
+
 import {
   View,
   Text,
@@ -6,17 +8,29 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "../../dtos/routes";
 
+import { AuthContext } from "../../contexts/auth";
+
 export default function SignIn() {
   // Platform.OS: permite veririficar qual sistema operacional o app está sendo usado e tomar decisões a partir dai.
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { signIn, loadingAuth } = useContext(AuthContext);
+
+  function handleLogin() {
+    signIn(email, password);
+  }
 
   return (
     <View className="flex-1 bg-[#f0f4ff]">
@@ -36,20 +50,29 @@ export default function SignIn() {
           <TextInput
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
             placeholder="E-mail..."
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View className="w-full items-center">
           <TextInput
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
             placeholder="Senha..."
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
 
         <TouchableOpacity
           activeOpacity={0.7}
+          onPress={handleLogin}
           className="w-[90%] h-[45px] rounded-[8px] bg-[#3b3dbf] mt-[10px] items-center justify-center"
         >
-          <Text className="text-[20px] text-white">Acessar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size={20} color={"#fff"} />
+          ) : (
+            <Text className="text-[20px] text-white">Acessar</Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity
