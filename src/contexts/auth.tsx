@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import api from "../services/api";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // cria o contexto
 export const AuthContext = createContext<any>({});
@@ -9,8 +10,37 @@ export const AuthContext = createContext<any>({});
 export default function AuthProvider({ children }: any) {
   const [user, setUser] = useState<any>(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadStorage() {
+      const storageUser = await AsyncStorage.getItem("@finToken");
+
+      if (storageUser) {
+        const response = await api
+          .get("/me", {
+            headers: {
+              Authorization: `Bearer ${storageUser}`,
+            },
+          })
+          .catch(() => {
+            setUser(null);
+          });
+
+        api.defaults.headers["Authorization"] = `Bearer ${storageUser}`;
+
+        setUser(response?.data);
+
+        setLoading(false);
+      }
+
+      setLoading(false);
+    }
+
+    loadStorage()
+  }, []);
 
   async function signUp(nome: string, password: string, email: string) {
     setLoadingAuth(true);
@@ -48,7 +78,10 @@ export default function AuthProvider({ children }: any) {
         email,
       };
 
+      // configura o axios para usar o token retornado
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
+
+      await AsyncStorage.setItem("@finToken", token);
 
       setUser({
         id,
@@ -66,7 +99,7 @@ export default function AuthProvider({ children }: any) {
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, signUp, loadingAuth, signIn }}
+      value={{ signed: !!user, user, signUp, loadingAuth, signIn, loading }}
     >
       {children}
     </AuthContext.Provider>
