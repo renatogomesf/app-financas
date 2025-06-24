@@ -7,17 +7,24 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 
 import { AuthContext } from "../../contexts/auth";
 
 export default function SignUp() {
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function handleSignUp() {
+
+    if(!nome || !password || !email){
+      alert("preencha todos os campos")
+      return
+    }
+
     signUp(nome, password, email);
   }
 
@@ -33,7 +40,7 @@ export default function SignUp() {
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
             placeholder="Nome..."
             value={nome}
-            onChangeText={(Text)=>setNome(Text)}
+            onChangeText={(Text) => setNome(Text)}
           />
         </View>
 
@@ -42,7 +49,7 @@ export default function SignUp() {
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
             placeholder="Seu e-mail..."
             value={email}
-            onChangeText={(Text)=>setEmail(Text)}
+            onChangeText={(Text) => setEmail(Text)}
           />
         </View>
 
@@ -51,7 +58,7 @@ export default function SignUp() {
             className="mb-[15px] bg-white w-[90%] text-[17px] p-[10px] rounded-[8px] text-[#121212]"
             placeholder="Sua senha..."
             value={password}
-            onChangeText={(Text)=>setPassword(Text)}
+            onChangeText={(Text) => setPassword(Text)}
           />
         </View>
 
@@ -60,7 +67,11 @@ export default function SignUp() {
           onPress={handleSignUp}
           className="w-[90%] h-[45px] rounded-[8px] bg-[#3b3dbf] mt-[10px] items-center justify-center"
         >
-          <Text className="text-[20px] text-white">Cadastrar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size={20} color={"#fff"} />
+          ) : (
+            <Text className="text-[20px] text-white">Cadastrar</Text>
+          )}
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
