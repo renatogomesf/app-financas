@@ -6,9 +6,26 @@ const AppDrawer = createDrawerNavigator();
 
 export default function AppRoutes() {
   return (
-    <AppDrawer.Navigator>
+    <AppDrawer.Navigator
+      screenOptions={{
+        headerShown: false,
+        drawerStyle: {
+          backgroundColor: '#fff',
+          paddingTop: 20,
+          borderTopEndRadius: 0,
+          borderBottomEndRadius: 0,
+        },
+        drawerItemStyle: {
+          borderRadius: 5
+        },
+        drawerActiveBackgroundColor: '#3b3dbf',
+        drawerActiveTintColor: '#fff',
+        drawerInactiveBackgroundColor: '#f0f2ff',
+        drawerInactiveTintColor: '#121212'
+      }}
+    >
       <AppDrawer.Screen name="Home" component={Home} />
-      {/* <Drawer.Screen name="Profile" component={ProfileScreen} /> */}
+      {/* <AppDrawer.Screen name="Profile" component={''} /> */}
     </AppDrawer.Navigator>
   );
 }

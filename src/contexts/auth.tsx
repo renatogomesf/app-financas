@@ -95,11 +95,19 @@ export default function AuthProvider({ children }: any) {
     }
   }
 
+
+  async function signOut() {
+    await AsyncStorage.clear()
+    .then(()=>{
+      setUser(null)
+    })
+  }
+
   // !!user: converte a variável para booleana. se tiver algo dentro, retorna true... se não tiver, retorna false.
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, signUp, loadingAuth, signIn, loading }}
+      value={{ signed: !!user, user, signUp, loadingAuth, signIn, loading, signOut }}
     >
       {children}
     </AuthContext.Provider>
