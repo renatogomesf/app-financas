@@ -8,6 +8,8 @@ import {
   FlatList,
 } from "react-native";
 
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+
 import { AuthContext } from "../../contexts/auth";
 
 import Header from "../../components/Header";
@@ -21,12 +23,15 @@ import { useIsFocused } from "@react-navigation/native";
 
 import BalanceItem from "../../components/BalanceItem";
 
+import HistoricoList from "../../components/HistoricoList";
+
 export default function Home() {
   // const { signOut, user } = useContext(AuthContext);
 
   const isFocused = useIsFocused();
 
   const [listBalance, setListBalance] = useState([]);
+  const [movements, setMovements] = useState([]);
 
   const [dateMovements, setDateMovements] = useState(new Date());
 
@@ -36,6 +41,12 @@ export default function Home() {
     async function getMovements() {
       let dateFormated = format(dateMovements, "dd/MM/yyyy");
 
+      const receives = await api.get("/receives", {
+        params: {
+          date: dateFormated,
+        },
+      });
+
       const balance = await api.get("/balance", {
         params: {
           date: dateFormated,
@@ -43,6 +54,7 @@ export default function Home() {
       });
 
       if (isActive) {
+        setMovements(receives.data);
         setListBalance(balance.data);
       }
     }
@@ -66,6 +78,24 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item: any) => item.tag}
         renderItem={({ item }) => <BalanceItem data={item} />}
+      />
+
+      <View className=" bg-[#fff] rounded-tl-[15px] rounded-tr-[15px] flex-row px-[14px] pt-[14px] items-baseline mt-[22px]">
+        <TouchableOpacity>
+          <MaterialIcons name="event" size={30} color="#121212" />
+        </TouchableOpacity>
+        <Text className="ml-[4px] text-[#121212] mb-[14px] font-bold text-[18px]">
+          Ultimas movimentações
+        </Text>
+      </View>
+
+      <FlatList
+        className="flex-1 bg-[#fff]"
+        data={movements}
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }) => <HistoricoList data={item} />}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: 20}}
       />
     </SafeAreaView>
   );
