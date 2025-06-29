@@ -24,7 +24,7 @@ export default function BalanceItem({ data }: any) {
 
   return (
     <View
-      className={`mx-[14px] rounded-[4px] justify-center items-start w-[300px] h-[200px] pl-[14px] ${labelName.color}`}
+      className={`mx-[14px] rounded-[4px] justify-center items-start w-[300px] pl-[14px] ${labelName.color}`}
     >
       <Text className="text-[#fff] text-[19px] font-bold">
         {labelName.label}

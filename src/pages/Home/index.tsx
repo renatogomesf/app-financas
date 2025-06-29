@@ -72,13 +72,15 @@ export default function Home() {
     <SafeAreaView className="flex-1 bg-[#f0f4ff]">
       <Header title={"Minhas movimentações"} />
 
-      <FlatList
-        data={listBalance}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item: any) => item.tag}
-        renderItem={({ item }) => <BalanceItem data={item} />}
-      />
+      <View className="h-[200px]">
+        <FlatList
+          data={listBalance}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item: any) => item.tag}
+          renderItem={({ item }) => <BalanceItem data={item} />}
+        />
+      </View>
 
       <View className=" bg-[#fff] rounded-tl-[15px] rounded-tr-[15px] flex-row px-[14px] pt-[14px] items-baseline mt-[22px]">
         <TouchableOpacity>
@@ -89,14 +91,15 @@ export default function Home() {
         </Text>
       </View>
 
-      <FlatList
-        className="flex-1 bg-[#fff]"
-        data={movements}
-        keyExtractor={(item: any) => item.id}
-        renderItem={({ item }) => <HistoricoList data={item} />}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 20}}
-      />
+      <View className="flex-1 bg-[#fff]">
+        <FlatList
+          data={movements}
+          keyExtractor={(item: any) => item.id}
+          renderItem={({ item }) => <HistoricoList data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </View>
     </SafeAreaView>
   );
 }

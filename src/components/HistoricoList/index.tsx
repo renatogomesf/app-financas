@@ -11,7 +11,11 @@ export default function HistoricoList({ data }: any) {
             data.type === "receita" ? "bg-[#049301]" : "bg-[#c62c36]"
           } `}
         >
-          <AntDesign name={data.type === "receita" ? 'arrowup' : 'arrowdown'} size={20} color="#fff" />
+          <AntDesign
+            name={data.type === "receita" ? "arrowup" : "arrowdown"}
+            size={20}
+            color="#fff"
+          />
           <Text className="text-[#fff] text-[16px] italic">{data.type}</Text>
         </View>
       </View>
