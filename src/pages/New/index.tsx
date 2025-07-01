@@ -57,12 +57,13 @@ export default function New() {
       date: format(new Date(), "dd/MM/yyyy"),
     });
 
-    setLabelInput('')
-    setValueInput('')
+    setLabelInput("");
+    setValueInput("");
   }
 
   return (
     // TouchableWithoutFeedback + Keyboard.dismiss(): fecha o teclado quando clicamos fora de um input ou botão.
+    // TouchableWithoutFeedback: é um botão sem feedback. ou seja, não indica que foi clicado
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View className="flex-1 bg-[#f0f4ff]">
         <Header title={"Registrando"} />

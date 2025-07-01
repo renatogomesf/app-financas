@@ -65,7 +65,21 @@ export default function Home() {
     return () => {
       isActive = false;
     };
-  }, [isFocused]);
+  }, [isFocused, dateMovements]);
+
+  async function handleDelete(id: any) {
+    try {
+      await api.delete("/receives/delete", {
+        params: {
+          item_id: id,
+        },
+      });
+
+      setDateMovements(new Date());
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     // SafeAreaView: garante que o conteúdo não fique por detrás das câmeras caso o aparelho possua a "gota" que invade a tela.
@@ -95,7 +109,9 @@ export default function Home() {
         <FlatList
           data={movements}
           keyExtractor={(item: any) => item.id}
-          renderItem={({ item }) => <HistoricoList data={item} />}
+          renderItem={({ item }) => (
+            <HistoricoList data={item} deleteItem={handleDelete} />
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
         />
