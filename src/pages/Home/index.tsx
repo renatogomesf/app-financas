@@ -6,24 +6,21 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
+  Modal,
 } from "react-native";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
 import { AuthContext } from "../../contexts/auth";
-
-import Header from "../../components/Header";
-
 import api from "../../services/api";
-
 import { format } from "date-fns";
 
 // verifica se você está na tela. se sim retorna true... se não, retorna false
 import { useIsFocused } from "@react-navigation/native";
 
+import Header from "../../components/Header";
 import BalanceItem from "../../components/BalanceItem";
-
 import HistoricoList from "../../components/HistoricoList";
+import CalendarModal from "../../components/CalendarModal";
 
 export default function Home() {
   // const { signOut, user } = useContext(AuthContext);
@@ -32,6 +29,7 @@ export default function Home() {
 
   const [listBalance, setListBalance] = useState([]);
   const [movements, setMovements] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [dateMovements, setDateMovements] = useState(new Date());
 
@@ -96,11 +94,11 @@ export default function Home() {
         />
       </View>
 
-      <View className=" bg-[#fff] rounded-tl-[15px] rounded-tr-[15px] flex-row px-[14px] pt-[14px] items-baseline mt-[22px]">
-        <TouchableOpacity>
+      <View className=" bg-[#fff] rounded-tl-[15px] rounded-tr-[15px] flex-row px-[14px] pt-[14px] items-center mt-[22px] ">
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <MaterialIcons name="event" size={30} color="#121212" />
         </TouchableOpacity>
-        <Text className="ml-[4px] text-[#121212] mb-[14px] font-bold text-[18px]">
+        <Text className="ml-[4px] text-[#121212] font-bold text-[18px] ">
           Ultimas movimentações
         </Text>
       </View>
@@ -116,6 +114,10 @@ export default function Home() {
           contentContainerStyle={{ paddingBottom: 20 }}
         />
       </View>
+
+      <Modal visible={modalVisible} animationType="fade" transparent={true}>
+        <CalendarModal setVisible={() => setModalVisible(false)} />
+      </Modal>
     </SafeAreaView>
   );
 }
