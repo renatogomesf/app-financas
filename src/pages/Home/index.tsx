@@ -79,6 +79,10 @@ export default function Home() {
     }
   }
 
+  function filterDateMovements(dateSelected: any) {
+    setDateMovements(dateSelected);
+  }
+
   return (
     // SafeAreaView: garante que o conteúdo não fique por detrás das câmeras caso o aparelho possua a "gota" que invade a tela.
     <SafeAreaView className="flex-1 bg-[#f0f4ff]">
@@ -116,7 +120,10 @@ export default function Home() {
       </View>
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>
-        <CalendarModal setVisible={() => setModalVisible(false)} />
+        <CalendarModal
+          setVisible={() => setModalVisible(false)}
+          handleFilter={filterDateMovements}
+        />
       </Modal>
     </SafeAreaView>
   );
